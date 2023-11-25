@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import * as ms from 'ms';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../../users/entities/user.entity';
+import { User } from '../../../users/entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { AuthEmailLoginDto } from '../dto/auth-email-login.dto';
 import { AuthUpdateDto } from '../dto/auth-update.dto';
@@ -16,15 +16,15 @@ import { plainToClass } from 'class-transformer';
 import { Status } from 'src/statuses/entities/status.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import { AuthProvidersEnum } from '../enums/auth-providers.enum';
-import { SocialInterface } from 'src/social/interfaces/social.interface';
+import { Social } from '@/types/social.type';
 import { AuthRegisterLoginDto } from '../dto/auth-register-login.dto';
 import { UsersService } from 'src/users/services/users.service';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from 'src/mail/services/mail.service';
 import { NullableType } from '@/types/nullable.type';
 import { LoginResponseType } from '../types/login-response.type';
 import { ConfigService } from '@nestjs/config';
 import { AllConfigType } from 'src/config/config.type';
-import { SessionService } from 'src/session/session.service';
+import { SessionService } from 'src/session/services/session.service';
 import { JwtRefreshPayloadType } from '../strategies/types/jwt-refresh-payload.type';
 import { Session } from 'src/session/entities/session.entity';
 import { JwtPayloadType } from '../strategies/types/jwt-payload.type';
@@ -105,7 +105,7 @@ export class AuthService {
 
   async validateSocialLogin(
     authProvider: string,
-    socialData: SocialInterface,
+    socialData: Social,
   ): Promise<LoginResponseType> {
     let user: NullableType<User> = null;
     const socialEmail = socialData.email?.toLowerCase();
@@ -188,7 +188,7 @@ export class AuthService {
     };
   }
 
-  async register(dto: AuthRegisterLoginDto): Promise<void> {
+  async register(dto: AuthRegisterLoginDto): Promise<LoginResponseType> {
     const user = await this.usersService.create({
       ...dto,
       email: dto.email,
@@ -220,12 +220,19 @@ export class AuthService {
       },
     );
 
-    await this.mailService.userSignUp({
+    this.mailService.userSignUp({
       to: dto.email,
       data: {
         hash,
       },
     });
+
+    const loginData = await this.validateLogin({
+      email: dto.email,
+      password: dto.password,
+    });
+
+    return loginData;
   }
 
   async confirmEmail(hash: string): Promise<void> {

@@ -1,34 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './controllers/auth.controller';
-import { AuthService } from './services/auth.service';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { AnonymousStrategy } from './strategies/anonymous.strategy';
-import { UsersModule } from 'src/users/users.module';
-import { MailModule } from 'src/mail/mail.module';
-import { IsExist } from 'src/utils/validators/is-exists.validator';
-import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
-import { SessionModule } from 'src/session/session.module';
-import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
+import { AuthGoogleModule } from './auth-google/auth-google.module';
+import { AuthPassportModule } from './auth-passport/auth-passport.module';
 
 @Module({
-  imports: [
-    UsersModule,
-    SessionModule,
-    PassportModule,
-    MailModule,
-    JwtModule.register({}),
-  ],
-  controllers: [AuthController],
-  providers: [
-    IsExist,
-    IsNotExist,
-    AuthService,
-    JwtStrategy,
-    JwtRefreshStrategy,
-    AnonymousStrategy,
-  ],
-  exports: [AuthService],
+  imports: [AuthPassportModule, AuthGoogleModule],
 })
 export class AuthModule {}

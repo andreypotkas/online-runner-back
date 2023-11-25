@@ -17,7 +17,7 @@ import { FileEntity } from '../../files/entities/file.entity';
 import * as bcrypt from 'bcryptjs';
 import { EntityHelper } from '@utils/entity-helper';
 import { Exclude, Expose } from 'class-transformer';
-import { AuthProvidersEnum } from '@auth/enums/auth-providers.enum';
+import { AuthProvidersEnum } from 'src/auth/auth-passport/enums/auth-providers.enum';
 
 @Entity()
 export class User extends EntityHelper {

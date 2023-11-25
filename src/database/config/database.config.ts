@@ -47,30 +47,6 @@ class EnvironmentVariablesValidator {
   @IsBoolean()
   @IsOptional()
   DATABASE_SYNCHRONIZE: boolean;
-
-  @IsInt()
-  @IsOptional()
-  DATABASE_MAX_CONNECTIONS: number;
-
-  @IsBoolean()
-  @IsOptional()
-  DATABASE_SSL_ENABLED: boolean;
-
-  @IsBoolean()
-  @IsOptional()
-  DATABASE_REJECT_UNAUTHORIZED: boolean;
-
-  @IsString()
-  @IsOptional()
-  DATABASE_CA: string;
-
-  @IsString()
-  @IsOptional()
-  DATABASE_KEY: string;
-
-  @IsString()
-  @IsOptional()
-  DATABASE_CERT: string;
 }
 
 export default registerAs<DatabaseConfig>('database', () => {
@@ -87,13 +63,5 @@ export default registerAs<DatabaseConfig>('database', () => {
     name: process.env.DATABASE_NAME,
     username: process.env.DATABASE_USERNAME,
     synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
-    maxConnections: process.env.DATABASE_MAX_CONNECTIONS
-      ? parseInt(process.env.DATABASE_MAX_CONNECTIONS, 10)
-      : 100,
-    sslEnabled: process.env.DATABASE_SSL_ENABLED === 'true',
-    rejectUnauthorized: process.env.DATABASE_REJECT_UNAUTHORIZED === 'true',
-    ca: process.env.DATABASE_CA,
-    key: process.env.DATABASE_KEY,
-    cert: process.env.DATABASE_CERT,
   };
 });

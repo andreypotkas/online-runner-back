@@ -12,6 +12,8 @@ import { AllConfigType } from './config/config.type';
 import validationOptions from '@utils/validation-options';
 
 async function bootstrap() {
+  console.log(process.env);
+
   const app = await NestFactory.create(AppModule, { cors: true });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
@@ -30,8 +32,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const options = new DocumentBuilder()
-    .setTitle('API')
-    .setDescription('API docs')
+    .setTitle('Online Runner API')
+    .setDescription('Online Runner API docs')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
