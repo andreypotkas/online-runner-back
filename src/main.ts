@@ -17,6 +17,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: { origin: '*', credentials: true },
   });
+
+  app.enableCors({
+    origin: '*', // Adjust this to the origin of your frontend
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: 'Content-Type', // Add 'Content-Type' to the allowed headers
+  });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
 
