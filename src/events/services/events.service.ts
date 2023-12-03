@@ -1,17 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { UpdateEventDto } from '../dto/update-event.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { Event } from '../entities/event.entity';
+import { FilterEventDto, SortEventDto } from '../dto/query-event.dto';
+import { IPaginationOptions } from '@/types/pagination-options';
 
 @Injectable()
 export class EventsService {
-  create(createEventDto: CreateEventDto) {
-    console.log(createEventDto);
-
-    return 'This action adds a new event';
+  constructor(
+    @InjectRepository(Event)
+    private eventsRepository: Repository<Event>,
+  ) {}
+  create(createEventDto: CreateEventDto): Promise<Event> {
+    return this.eventsRepository.save(
+      this.eventsRepository.create(createEventDto),
+    );
   }
 
-  findAll() {
-    return `This action returns all events`;
+  findManyWithPagination({
+    filterOptions,
+    sortOptions,
+    paginationOptions,
+  }: {
+    filterOptions?: FilterEventDto | null;
+    sortOptions?: SortEventDto[] | null;
+    paginationOptions: IPaginationOptions;
+  }): Promise<Event[]> {
+    const where: FindOptionsWhere<Event> = {};
+    if (filterOptions?.categories?.length) {
+      where.category = filterOptions.categories.map((category) => ({
+        id: category.id,
+      }));
+    }
+
+    return this.eventsRepository.find({
+      skip: (paginationOptions.page - 1) * paginationOptions.limit,
+      take: paginationOptions.limit,
+      where: where,
+      order: sortOptions?.reduce(
+        (accumulator, sort) => ({
+          ...accumulator,
+          [sort.orderBy]: sort.order,
+        }),
+        {},
+      ),
+    });
   }
 
   findOne(id: number) {

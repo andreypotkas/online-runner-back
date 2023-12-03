@@ -6,14 +6,17 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ParticipationOption } from '../modules/participation-option/entities/participation-option.entity';
 import { Status } from 'src/statuses/entities/status.entity';
+import { EventCategory } from '../modules/event-category/entities/event-category.entity';
 
 @Entity()
 export class Event extends EntityHelper {
@@ -28,10 +31,14 @@ export class Event extends EntityHelper {
   @Column({ type: String, nullable: true })
   description: string | null;
 
-  @ManyToOne(() => FileEntity, {
+  @OneToOne(() => FileEntity, {
     eager: true,
   })
+  @JoinColumn()
   image: FileEntity | null;
+
+  @ManyToOne(() => EventCategory)
+  category: EventCategory;
 
   @ManyToMany(() => User)
   @JoinTable()
@@ -46,11 +53,11 @@ export class Event extends EntityHelper {
   })
   status: Status;
 
-  @Column({ type: 'timestamp' })
-  startDate: Date;
+  @Column({ type: String })
+  startDate: string;
 
-  @Column({ type: 'timestamp' })
-  endDate: Date;
+  @Column({ type: String })
+  endDate: string;
 
   @CreateDateColumn()
   createdAt: Date;
