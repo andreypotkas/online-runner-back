@@ -5,11 +5,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { diskStorage } from 'multer';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import { S3Client } from '@aws-sdk/client-s3';
-import * as Multer from 'multer';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileEntity } from './entities/file.entity';
 import { FilesService } from './files.service';
 import { AllConfigType } from 'src/config/config.type';
+import * as multerS3 from 'multer-s3';
 
 @Module({
   imports: [
@@ -46,17 +46,16 @@ import { AllConfigType } from 'src/config/config.type';
               },
             });
 
-            return Multer.multerS3({
+            return multerS3({
               s3: s3,
               bucket: configService.getOrThrow('file.awsDefaultS3Bucket', {
                 infer: true,
               }),
-              acl: 'public-read',
-              contentType: Multer.multerS3.AUTO_CONTENT_TYPE,
+              contentType: multerS3.AUTO_CONTENT_TYPE,
               key: (request, file, callback) => {
                 callback(
                   null,
-                  `${randomStringGenerator()}.${file.originalname
+                  `uploads/${randomStringGenerator()}.${file.originalname
                     .split('.')
                     .pop()
                     ?.toLowerCase()}`,

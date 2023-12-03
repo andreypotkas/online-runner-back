@@ -25,7 +25,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       synchronize: this.configService.get<boolean>('database.synchronize', {
         infer: true,
       }),
-      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/../**/*.entity{.js,.ts}'],
       migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
     } as TypeOrmModuleOptions;
   }

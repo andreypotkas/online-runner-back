@@ -12,8 +12,6 @@ import { AllConfigType } from './config/config.type';
 import validationOptions from '@utils/validation-options';
 
 async function bootstrap() {
-  console.log(process.env);
-
   const app = await NestFactory.create(AppModule, {
     cors: { origin: '*', credentials: true },
   });

@@ -5,6 +5,7 @@ import { FileEntity } from './entities/file.entity';
 import { Repository } from 'typeorm';
 import { AllConfigType } from 'src/config/config.type';
 import * as Multer from 'multer';
+import multerS3 from 'multer-s3';
 
 @Injectable()
 export class FilesService {
@@ -15,7 +16,7 @@ export class FilesService {
   ) {}
 
   async uploadFile(
-    file: Multer.Multer.File | Multer.MulterS3.File,
+    file: Multer.Multer.File | multerS3.File,
   ): Promise<FileEntity> {
     if (!file) {
       throw new HttpException(

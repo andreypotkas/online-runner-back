@@ -8,12 +8,20 @@ import { TypeOrmConfigService } from '../typeorm-config.service';
 import { RoleSeedModule } from './role/role-seed.module';
 import { StatusSeedModule } from './status/status-seed.module';
 import { UserSeedModule } from './user/user-seed.module';
+import { EventCategorySeedModule } from './event-category/event-category.module';
+import { EventPriceSeedModule } from './event-price/event-price.module';
+import { EventRewardSeedModule } from './event-reward/event-reward.module';
+import { ParticipationOptionSeedModule } from './participation-option/participation-option.module';
 
 @Module({
   imports: [
     RoleSeedModule,
     StatusSeedModule,
     UserSeedModule,
+    EventCategorySeedModule,
+    EventPriceSeedModule,
+    EventRewardSeedModule,
+    ParticipationOptionSeedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig],

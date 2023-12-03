@@ -14,6 +14,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { SessionModule } from './session/session.module';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { AuthModule } from './auth/auth.module';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { AuthModule } from './auth/auth.module';
     SessionModule,
     MailModule,
     AuthModule,
+    EventsModule,
   ],
 })
 export class AppModule {}
