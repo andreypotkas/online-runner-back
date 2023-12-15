@@ -46,6 +46,11 @@ export class EventsService {
         }),
         {},
       ),
+      relations: {
+        participants: true,
+        participationOptions: true,
+        category: true,
+      },
     });
   }
 

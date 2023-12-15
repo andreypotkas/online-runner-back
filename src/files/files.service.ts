@@ -6,9 +6,12 @@ import { Repository } from 'typeorm';
 import { AllConfigType } from 'src/config/config.type';
 import * as Multer from 'multer';
 import multerS3 from 'multer-s3';
+import { S3 } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class FilesService {
+  private readonly s3: S3 = new S3();
+
   constructor(
     private readonly configService: ConfigService<AllConfigType>,
     @InjectRepository(FileEntity)
@@ -31,9 +34,6 @@ export class FilesService {
     }
 
     const path = {
-      local: `/${this.configService.get('app.apiPrefix', { infer: true })}/v1/${
-        file.path
-      }`,
       s3: (file as Multer.MulterS3.File).location,
     };
 
@@ -44,5 +44,28 @@ export class FilesService {
         ],
       }),
     );
+  }
+
+  async deleteFile(path: string): Promise<void> {
+    const bucketName = this.configService.get<string>(
+      'file.awsDefaultS3Bucket',
+      {
+        infer: true,
+      },
+    );
+
+    const params = {
+      Bucket: bucketName,
+      Key: path,
+    };
+
+    try {
+      // Delete file from S3 using the existing S3Client
+      await this.s3.deleteObject(params);
+    } catch (error) {
+      // Handle errors
+      console.error(`Error deleting file from S3: ${error.message}`);
+      throw new Error(`Error deleting file from S3: ${error.message}`);
+    }
   }
 }

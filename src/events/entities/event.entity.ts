@@ -1,16 +1,13 @@
 import { EntityHelper } from '@utils/entity-helper';
-import { FileEntity } from 'src/files/entities/file.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,11 +28,8 @@ export class Event extends EntityHelper {
   @Column({ type: String, nullable: true })
   description: string | null;
 
-  @OneToOne(() => FileEntity, {
-    eager: true,
-  })
-  @JoinColumn()
-  image: FileEntity | null;
+  @Column({ type: String, nullable: true })
+  image: string;
 
   @ManyToOne(() => EventCategory)
   category: EventCategory;

@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -22,8 +23,8 @@ import * as Multer from 'multer';
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard('jwt'))
   @Post('upload')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -44,8 +45,8 @@ export class FilesController {
     return this.filesService.uploadFile(file);
   }
 
-  @Get(':path')
-  download(@Param('path') path, @Response() response) {
-    return response.sendFile(path, { root: './files' });
+  @Delete('delete/:path')
+  deleteFile(@Param('path') path: string) {
+    return this.filesService.deleteFile(path);
   }
 }

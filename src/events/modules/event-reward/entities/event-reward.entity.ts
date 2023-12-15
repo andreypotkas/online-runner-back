@@ -1,5 +1,12 @@
 import { EntityHelper } from '@utils/entity-helper';
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class EventReward extends EntityHelper {
@@ -9,4 +16,19 @@ export class EventReward extends EntityHelper {
   @Index()
   @Column({ type: String })
   name: string;
+
+  @Column({ type: String })
+  description: string;
+
+  @Column({ type: Number, nullable: true })
+  price: number;
+
+  @Column({ type: String, nullable: true })
+  image: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

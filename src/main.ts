@@ -10,17 +10,16 @@ import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 import { AllConfigType } from './config/config.type';
 import validationOptions from '@utils/validation-options';
+const origins = ['http://localhost:5173'];
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: { origin: '*', credentials: true },
+    cors: { origin: origins },
   });
 
   app.enableCors({
-    origin: '*', // Adjust this to the origin of your frontend
+    origin: origins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    allowedHeaders: 'Content-Type', // Add 'Content-Type' to the allowed headers
   });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);

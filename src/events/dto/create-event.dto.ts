@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, Validate } from 'class-validator';
 import { Status } from 'src/statuses/entities/status.entity';
-import { FileEntity } from 'src/files/entities/file.entity';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
 import { User } from 'src/users/entities/user.entity';
 import { ParticipationOption } from '../modules/participation-option/entities/participation-option.entity';
@@ -16,17 +15,9 @@ export class CreateEventDto {
   @IsNotEmpty()
   description: string;
 
-  @ApiProperty({
-    type: () => FileEntity,
-    example: {
-      path: 'https://run-connect-bucker.s3.eu-west-1.amazonaws.com/uploads/fa0b21e2ea346b1ab496c.png',
-      id: '1c114a40-cb5c-4649-b67f-c7505c6e2015',
-    },
-  })
-  @Validate(IsExist, ['FileEntity', 'id'], {
-    message: 'imageNotExists',
-  })
-  image: FileEntity | null;
+  @ApiProperty({ example: 'Winter is coming!' })
+  @IsNotEmpty()
+  image: string;
 
   @ApiProperty({ type: () => User, example: [] })
   @IsNotEmpty()

@@ -6,29 +6,18 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   HttpCode,
   HttpStatus,
-  SerializeOptions,
   Query,
 } from '@nestjs/common';
 import { EventsService } from '../services/events.service';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { UpdateEventDto } from '../dto/update-event.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/roles/roles.decorator';
-import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/roles/roles.guard';
-import { RoleEnum } from 'src/roles/roles.enum';
 import { QueryEventDto } from '../dto/query-event.dto';
 import { InfinityPaginationResultType } from '@/types/infinity-pagination-result.type';
 import { infinityPagination } from '@utils/infinity-pagination';
 import { Event } from '../entities/event.entity';
 
-@ApiBearerAuth()
-@Roles(RoleEnum.admin)
-@UseGuards(AuthGuard('jwt'), RolesGuard)
-@ApiTags('Events')
 @Controller({
   path: 'events',
   version: '1',
@@ -40,12 +29,11 @@ export class EventsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createEventDto: CreateEventDto) {
+    console.log(createEventDto);
+
     return this.eventsService.create(createEventDto);
   }
 
-  @SerializeOptions({
-    groups: ['admin'],
-  })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
