@@ -3,12 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpCode,
   HttpStatus,
   Query,
+  Put,
 } from '@nestjs/common';
 import { EventsService } from '../services/events.service';
 import { CreateEventDto } from '../dto/create-event.dto';
@@ -63,7 +63,7 @@ export class EventsController {
     return this.eventsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventsService.update(+id, updateEventDto);
   }

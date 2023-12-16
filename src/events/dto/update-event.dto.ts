@@ -5,6 +5,7 @@ import { Status } from 'src/statuses/entities/status.entity';
 import { IsExist } from '@utils/validators/is-exists.validator';
 import { ParticipationOption } from '../modules/participation-option/entities/participation-option.entity';
 import { User } from 'src/users/entities/user.entity';
+import { EventReward } from '../modules/event-reward/entities/event-reward.entity';
 
 export class UpdateEventDto extends PartialType(CreateEventDto) {
   @ApiProperty({ example: 'Winter is coming!' })
@@ -26,6 +27,10 @@ export class UpdateEventDto extends PartialType(CreateEventDto) {
   @ApiProperty({ type: () => ParticipationOption, example: [] })
   @IsOptional()
   participationOptions?: ParticipationOption[];
+
+  @ApiProperty({ type: () => EventReward, example: [] })
+  @IsOptional()
+  rewards?: EventReward[];
 
   @ApiProperty({
     example: '1701614504',

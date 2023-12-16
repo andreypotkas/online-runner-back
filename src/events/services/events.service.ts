@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEventDto } from '../dto/create-event.dto';
-import { UpdateEventDto } from '../dto/update-event.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { Event } from '../entities/event.entity';
 import { FilterEventDto, SortEventDto } from '../dto/query-event.dto';
 import { IPaginationOptions } from '@/types/pagination-options';
@@ -14,9 +13,9 @@ export class EventsService {
     private eventsRepository: Repository<Event>,
   ) {}
   create(createEventDto: CreateEventDto): Promise<Event> {
-    return this.eventsRepository.save(
-      this.eventsRepository.create(createEventDto),
-    );
+    return this.eventsRepository
+      .save(this.eventsRepository.create(createEventDto))
+      .then((data) => this.findOne(data.id));
   }
 
   findManyWithPagination({
@@ -50,21 +49,34 @@ export class EventsService {
         participants: true,
         participationOptions: true,
         category: true,
+        rewards: true,
       },
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
+  findOne(id: number): Promise<Event> {
+    return this.eventsRepository.findOne({
+      where: { id },
+      relations: {
+        participants: true,
+        participationOptions: true,
+        category: true,
+        rewards: true,
+      },
+    });
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    console.log(updateEventDto);
-
-    return `This action updates a #${id} event`;
+  async update(id: Event['id'], payload: DeepPartial<Event>): Promise<Event> {
+    await this.eventsRepository.save(
+      this.eventsRepository.create({
+        id,
+        ...payload,
+      }),
+    );
+    return await this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
+  async remove(id: Event['id']): Promise<void> {
+    await this.eventsRepository.delete(id);
   }
 }
