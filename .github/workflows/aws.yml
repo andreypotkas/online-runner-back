@@ -20,7 +20,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker build -t runconnect .
-          docker tag runconnect:latest ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
+          docker tag runconnect:latest ${{ secrets.DOCKER_REPO_URL }}:latest
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker push ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
 
