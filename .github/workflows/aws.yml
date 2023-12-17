@@ -32,7 +32,7 @@ jobs:
           key: ${{ secrets.MY_EC2_SSH_KEY }}
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            sudo docker pull ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
-            sudo docker stop runconnect || true
-            sudo docker rm runconnect || true
-            sudo docker run -d -p 4000:4000 --name runconnect ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
+            sudo docker-compose -f docker-compose.yml pull
+            sudo docker-compose -f docker-compose.yml stop runconnect || true
+            sudo docker-compose -f docker-compose.yml rm -f runconnect || true
+            sudo docker-compose -f docker-compose.yml up -d
