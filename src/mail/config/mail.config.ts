@@ -17,7 +17,7 @@ class EnvironmentVariablesValidator {
 }
 
 export default registerAs<MailConfig>('mail', () => {
-  validateConfig(process.env, EnvironmentVariablesValidator);
+  // validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {
     port: 587,
