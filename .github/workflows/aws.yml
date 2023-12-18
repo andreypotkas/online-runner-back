@@ -8,7 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,18 +18,11 @@ jobs:
           node-version: '16'
 
       - name: Build and push Docker image
+        env:
+          DATABASE_TYPE: ${{ secrets.DATABASE_TYPE }}
 
         run: |
-          echo "MY_SECRET_VAR1: ${{env.production.DATABASE_TYPE}}
-          echo "MY_SECRET_VAR1: ${{secrets.DOCKER_REPO_URL}}
-          echo "MY_SECRET_VAR1: ${{env.DOCKER_REPO_URL}}
-          echo "MY_SECRET_VAR1: ${{vars.DOCKER_REPO_URL}}
           echo "MY_SECRET_VAR1: ${{env.DATABASE_TYPE}}
-          echo "MY_SECRET_VAR1: ${{secrets}}
-
-
-
-
           docker build -t runconnect .
           docker tag runconnect:latest ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
