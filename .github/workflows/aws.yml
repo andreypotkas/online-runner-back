@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -25,7 +25,7 @@ jobs:
           echo "MY_SECRET_VAR1: ${{secrets.DOCKER_REPO_URL}}
           echo "MY_SECRET_VAR1: ${{env.DOCKER_REPO_URL}}
           echo "MY_SECRET_VAR1: ${{vars.DOCKER_REPO_URL}}
-          echo "MY_SECRET_VAR1: ${{env}}
+          echo "MY_SECRET_VAR1: ${{env.DATABASE_TYPE}}
           echo "MY_SECRET_VAR1: ${{secrets}}
 
 
