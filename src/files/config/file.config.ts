@@ -22,7 +22,7 @@ class EnvironmentVariablesValidator {
 }
 
 export default registerAs<FileConfig>('file', () => {
-  // validateConfig(process.env, EnvironmentVariablesValidator);
+  validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {
     driver: 's3',
