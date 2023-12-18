@@ -26,8 +26,6 @@ jobs:
           docker push ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
 
       - name: SSH into EC2 instance and deploy
-        env:
-          DATABASE_TYPE: ${{ secrets.DATABASE_TYPE }}
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -38,4 +36,4 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
             sudo docker stop runconnect || true
             sudo docker rm runconnect || true
-            sudo docker run -d -p 4000:4000 --name runconnect ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
+            sudo docker run -d -p 4000:4000 --env-file /home/ubuntu/apps/.env --name runconnect ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
