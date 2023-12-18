@@ -15,11 +15,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
 
       - name: Build and push Docker image
-        env:
-          DATABASE_TYPE: ${{ secrets.DATABASE_TYPE }}
         run: |
           echo "DATABASE_TYPE: ${{ env.DATABASE_TYPE }}"
           docker build -t runconnect .
@@ -28,6 +26,8 @@ jobs:
           docker push ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
 
       - name: SSH into EC2 instance and deploy
+        env:
+          DATABASE_TYPE: ${{ secrets.DATABASE_TYPE }}
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
