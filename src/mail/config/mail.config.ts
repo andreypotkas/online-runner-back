@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import { MailConfig } from 'src/mail/config/mail-config.type';
-import { IsString, IsOptional, IsEmail } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 import validateConfig from 'src/utils/validate-config';
 
 class EnvironmentVariablesValidator {
@@ -11,9 +11,6 @@ class EnvironmentVariablesValidator {
   @IsString()
   @IsOptional()
   MAIL_PASSWORD: string;
-
-  @IsEmail()
-  MAIL_DEFAULT_EMAIL: string;
 
   @IsString()
   MAIL_DEFAULT_NAME: string;
