@@ -9,22 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: /home/ubuntu/apps/online-runner-back
-
-      - name: Build application
-        run: npm run build
-        working-directory: /home/ubuntu/apps/online-runner-back
-
       - name: SSH into EC2 instance and deploy
         uses: appleboy/ssh-action@master
         with:
