@@ -24,6 +24,9 @@ async function bootstrap() {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
 
+  const envVars = configService.get<string>('mail'); // Provide an appropriate prefix if you only want to log specific variables
+  console.log('Environment Variables:', envVars);
+
   app.enableShutdownHooks();
   app.setGlobalPrefix(
     configService.getOrThrow('app.apiPrefix', { infer: true }),
