@@ -20,9 +20,8 @@ jobs:
       - name: Build and push Docker image
         env:
           DATABASE_TYPE: ${{ secrets.DATABASE_TYPE }}
-
         run: |
-          echo "MY_SECRET_VAR1: ${{env.DATABASE_TYPE}}
+          echo "DATABASE_TYPE: ${{ env.DATABASE_TYPE }}"
           docker build -t runconnect .
           docker tag runconnect:latest ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
