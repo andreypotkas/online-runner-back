@@ -27,4 +27,4 @@ jobs:
           key: ${{ secrets.MY_EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/apps/online-runner-back
-            docker-compose up --build
+            docker-compose up --build -d
