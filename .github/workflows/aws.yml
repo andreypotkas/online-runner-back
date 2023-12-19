@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH into EC2 instance and deploy
+      - name: SSH into EC2 instance and pull code
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -18,4 +18,13 @@ jobs:
           script: |
             cd /home/ubuntu/apps/online-runner-back
             git pull origin master
+
+      - name: SSH into EC2 instance and rebuild Docker containers
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.MY_EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/apps/online-runner-back
             docker-compose up --build
