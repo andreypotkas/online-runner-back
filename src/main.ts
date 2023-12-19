@@ -21,9 +21,8 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: ['http://localhost:5173'],
+    origin: origins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
   });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
