@@ -21,7 +21,7 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: origins,
+    origin: ['http://localhost:5173'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
