@@ -1,8 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FileEntity } from './entities/file.entity';
-import { Repository } from 'typeorm';
 import { AllConfigType } from 'src/config/config.type';
 import * as Multer from 'multer';
 import multerS3 from 'multer-s3';
@@ -12,15 +9,9 @@ import { S3 } from '@aws-sdk/client-s3';
 export class FilesService {
   private readonly s3: S3 = new S3();
 
-  constructor(
-    private readonly configService: ConfigService<AllConfigType>,
-    @InjectRepository(FileEntity)
-    private readonly fileRepository: Repository<FileEntity>,
-  ) {}
+  constructor(private readonly configService: ConfigService<AllConfigType>) {}
 
-  async uploadFile(
-    file: Multer.Multer.File | multerS3.File,
-  ): Promise<FileEntity> {
+  async uploadFile(file: Multer.Multer.File | multerS3.File): Promise<string> {
     if (!file) {
       throw new HttpException(
         {
@@ -37,13 +28,7 @@ export class FilesService {
       s3: (file as Multer.MulterS3.File).location,
     };
 
-    return this.fileRepository.save(
-      this.fileRepository.create({
-        path: path[
-          this.configService.getOrThrow('file.driver', { infer: true })
-        ],
-      }),
-    );
+    return path.s3;
   }
 
   async deleteFile(path: string): Promise<void> {
