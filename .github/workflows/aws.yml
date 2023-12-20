@@ -15,14 +15,14 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.MY_EC2_SSH_KEY }}
-          run: |
+          script: |
             cd /home/ubuntu/apps/online-runner-back
             git pull origin master
 
       - name: Install Node.js dependencies
         uses: actions/setup-node@v3
         with:
-          node-version: '14' # Adjust to the version you need
+          node-version: '14'
 
       - name: Install project dependencies
         run: npm install
@@ -30,8 +30,8 @@ jobs:
       - name: Build the application
         run: npm run build
 
-      - name: Stop the existing application
-        run: pm2 delete runconnect || true # Ignore error if the app is not running
+      - name: Stop the application
+        run: pm2 delete runconnect
 
       - name: Launch the application with pm2
         run: pm2 start dist/main.js --name runconnect
