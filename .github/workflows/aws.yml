@@ -18,12 +18,9 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Build and push Docker image
+      - name: Install Docker Compose
         run: |
-          docker build -t runconnect .
-          docker tag runconnect:latest ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
+          sudo apt-get install -y docker-compose
 
       - name: SSH into EC2 instance and deploy
         uses: appleboy/ssh-action@master
@@ -32,8 +29,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.MY_EC2_SSH_KEY }}
           script: |
-            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            sudo docker pull ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
-            sudo docker stop runconnect || true
-            sudo docker rm runconnect || true
-            sudo docker run -d -p 4000:4000 --env-file /home/ubuntu/apps/online-runner-back/.env --name runconnect ${{ secrets.DOCKER_REPO_URL }}/runconnect:latest
+            cd /home/ubuntu/apps/online-runner-back
+            git pull origin master
+            docker-compose down
+            docker-compose up -d
