@@ -1,8 +1,5 @@
 echo "Kill PM2 runnconnect process"
-sudo pm2 delete runconnect
-
-echo "Jump to app folder"
-cd /home/ubuntu/apps/online-runner-back
+sudo pm2 delete runconnect || true
 
 echo "Update app from Git"
 git pull origin master
