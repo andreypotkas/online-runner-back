@@ -18,3 +18,17 @@ jobs:
           script: |
             cd /home/ubuntu/apps/online-runner-back
             git pull origin master
+
+      - name: Install Node.js dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install project dependencies
+        run: npm install
+
+      - name: Build the application
+        run: npm run build
+
+      - name: Launch the application with pm2
+        run: pm2 start dist/main.js --name runconnect
