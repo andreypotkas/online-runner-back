@@ -5,7 +5,6 @@ echo "Update app from Git"
 git pull origin master
 
 echo "Install app dependencies"
-sudo rm -rf node_modules package-lock.json
 sudo npm install
 
 echo "Build your app"
