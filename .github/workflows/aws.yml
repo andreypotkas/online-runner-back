@@ -19,11 +19,6 @@ jobs:
             cd /home/ubuntu/apps/online-runner-back
             git pull origin master
 
-      - name: Install Node.js dependencies
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-
       - name: Install project dependencies
         run: npm install
         working-directory: /home/ubuntu/apps/online-runner-back
