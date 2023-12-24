@@ -15,6 +15,8 @@ import { SessionModule } from './session/session.module';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { AuthModule } from './auth/auth.module';
 import { EventsModule } from './events/events.module';
+import { ShopModule } from './shop/shop.module';
+import shopConfig from './shop/config/shop.config';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { EventsModule } from './events/events.module';
         mailConfig,
         fileConfig,
         googleConfig,
+        shopConfig,
       ],
       envFilePath: ['.env'],
     }),
@@ -43,6 +46,7 @@ import { EventsModule } from './events/events.module';
     MailModule,
     AuthModule,
     EventsModule,
+    ShopModule,
   ],
 })
 export class AppModule {}
