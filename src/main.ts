@@ -12,6 +12,7 @@ import { AllConfigType } from './config/config.type';
 import validationOptions from '@utils/validation-options';
 const origins = [
   'http://localhost:5173',
+  'http://run-connect-frontend-shop.s3-website-eu-west-1.amazonaws.com',
   'http://run-connect-frontend.s3-website-eu-west-1.amazonaws.com',
 ];
 
