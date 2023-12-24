@@ -10,18 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get install -y docker-compose
-
       - name: SSH into EC2 instance and deploy
         uses: appleboy/ssh-action@master
         with:
@@ -31,5 +19,6 @@ jobs:
           script: |
             cd /home/ubuntu/apps/online-runner-back
             git pull origin master
-            docker compose down
+            docker stop nest-app
+            docker rm nest-app
             docker compose up -d
