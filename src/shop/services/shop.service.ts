@@ -77,7 +77,8 @@ export class ShopService {
     ❓❓❓<b style="color: #333;">RunConnect Shop Вопрос!</b>❓❓❓
       Дата : ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
 
-      💬${questionMessage}
+      💬 ${questionMessage}
+
       Способ связи: ${contactType}
       Контакты: ${contact}
     `;
