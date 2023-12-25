@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { OrderBody, ShopService } from '../services/shop.service';
+import { OrderBody, QuestionBody, ShopService } from '../services/shop.service';
 
 @Controller({
   path: 'shop',
@@ -14,7 +14,12 @@ export class ShopController {
   }
 
   @Post('send-message')
-  sendMessage(@Body() orderBody: OrderBody) {
-    return this.shopService.sendMessage(orderBody);
+  checkout(@Body() orderBody: OrderBody) {
+    return this.shopService.checkout(orderBody);
+  }
+
+  @Post('ask-question')
+  askQuestion(@Body() questionBody: QuestionBody) {
+    return this.shopService.askQuestion(questionBody);
   }
 }

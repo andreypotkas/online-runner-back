@@ -16,6 +16,12 @@ export type OrderBody = {
   contact: string;
 };
 
+export type QuestionBody = {
+  questionMessaage: string;
+  contactType: string;
+  contact: string;
+};
+
 @Injectable()
 export class ShopService {
   private readonly bot: TelegramBot;
@@ -30,17 +36,48 @@ export class ShopService {
     });
   }
 
-  sendMessage(orderBody: OrderBody) {
+  public checkout(orderBody: OrderBody) {
     const { products, contactType, contact } = orderBody;
     const productCards = products.map((product: Product) =>
       this.createProductCard(product),
     );
 
     const message = `
-    ⭐⭐⭐<b style="color: #333;">RunConnect Shop Новый заказ!</b>⭐⭐⭐
-      Дата заказа: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
+    ⭐<b style="color: #333;">RunConnect Shop Новый заказ!</b>⭐
+      Дата: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
 
       ${productCards.join('\n')}
+      Способ связи: ${contactType}
+      Контакт: ${contact}
+    `;
+
+    this.bot.sendMessage(
+      this.configService.getOrThrow('shop.chatId', {
+        infer: true,
+      }),
+      message,
+      { parse_mode: 'HTML' },
+    );
+
+    this.bot.sendMessage(
+      this.configService.getOrThrow('shop.chatIdSecondary', {
+        infer: true,
+      }),
+      message,
+      { parse_mode: 'HTML' },
+    );
+
+    return { success: true };
+  }
+
+  public askQuestion(questionBody: QuestionBody) {
+    const { questionMessaage, contactType, contact } = questionBody;
+
+    const message = `
+    ❓❓❓<b style="color: #333;">RunConnect Shop Вопрос!</b>❓❓❓
+      Дата : ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
+
+      💬${questionMessaage}
       Способ связи: ${contactType}
       Контакты: ${contact}
     `;
@@ -64,7 +101,7 @@ export class ShopService {
     return { success: true };
   }
 
-  createProductCard(product: Product) {
+  private createProductCard(product: Product) {
     return `
         <b style="color: #333;">✅ ${product.name}</b>
         <i style="color: #777;">Цена:</i> ${product.price} руб.
