@@ -8,7 +8,7 @@ import { OrderBody, QuestionBody, ShopService } from '../services/shop.service';
 export class ShopController {
   constructor(private readonly shopService: ShopService) {}
 
-  @Get('')
+  @Get('shop-test')
   hello() {
     return 'Hello';
   }
