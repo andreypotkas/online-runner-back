@@ -17,7 +17,7 @@ export type OrderBody = {
 };
 
 export type QuestionBody = {
-  questionMessaage: string;
+  questionMessage: string;
   contactType: string;
   contact: string;
 };
@@ -71,13 +71,13 @@ export class ShopService {
   }
 
   public askQuestion(questionBody: QuestionBody) {
-    const { questionMessaage, contactType, contact } = questionBody;
+    const { questionMessage, contactType, contact } = questionBody;
 
     const message = `
     ❓❓❓<b style="color: #333;">RunConnect Shop Вопрос!</b>❓❓❓
       Дата : ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
 
-      💬${questionMessaage}
+      💬${questionMessage}
       Способ связи: ${contactType}
       Контакты: ${contact}
     `;
