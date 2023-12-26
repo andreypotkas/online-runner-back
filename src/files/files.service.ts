@@ -41,7 +41,7 @@ export class FilesService {
 
     const params = {
       Bucket: bucketName,
-      Key: path,
+      Key: 'uploads/' + path,
     };
 
     try {
