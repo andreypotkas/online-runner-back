@@ -44,7 +44,7 @@ export class FilesService {
       Key: 'uploads/' + path,
     };
 
-    console.log('Deleting image params');
+    console.log('Delete image params', params);
 
     try {
       await this.s3.deleteObject(params);
