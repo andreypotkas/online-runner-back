@@ -7,7 +7,11 @@ import { S3 } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class FilesService {
-  private readonly s3: S3 = new S3();
+  private readonly s3: S3 = new S3({
+    region: this.configService.get<string>('file.awsS3Region', {
+      infer: true,
+    }),
+  });
 
   constructor(private readonly configService: ConfigService<AllConfigType>) {}
 
