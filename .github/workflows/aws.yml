@@ -19,4 +19,9 @@ jobs:
           script: |
             cd /home/ubuntu/apps/online-runner-back
             git pull origin master
+            sleep 10
+            docker stop nest-app
+            sleep 60
+            docker rm nest-app
+            sleep 10
             docker compose up -d --build
