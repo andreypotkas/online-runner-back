@@ -11,6 +11,14 @@ export class FilesService {
     region: this.configService.get<string>('file.awsS3Region', {
       infer: true,
     }),
+    credentials: {
+      accessKeyId: this.configService.get<string>('file.accessKeyId', {
+        infer: true,
+      }),
+      secretAccessKey: this.configService.get<string>('file.secretAccessKey', {
+        infer: true,
+      }),
+    },
   });
 
   constructor(private readonly configService: ConfigService<AllConfigType>) {}
