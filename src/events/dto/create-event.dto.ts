@@ -5,7 +5,6 @@ import { IsExist } from 'src/utils/validators/is-exists.validator';
 import { User } from 'src/users/entities/user.entity';
 import { ParticipationOption } from '../modules/participation-option/entities/participation-option.entity';
 import { EventCategory } from '../modules/event-category/entities/event-category.entity';
-import { EventReward } from '../modules/event-reward/entities/event-reward.entity';
 
 export class CreateEventDto {
   @ApiProperty({ example: 'Winter is coming!' })
@@ -27,10 +26,6 @@ export class CreateEventDto {
   @ApiProperty({ type: () => ParticipationOption, example: [] })
   @IsNotEmpty()
   participationOptions: ParticipationOption[];
-
-  @ApiProperty({ type: () => EventReward, example: [] })
-  @IsNotEmpty()
-  rewards: EventReward[];
 
   @ApiProperty({ type: () => EventCategory, example: 1 })
   @IsNotEmpty()

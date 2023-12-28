@@ -9,7 +9,6 @@ import { RoleSeedModule } from './role/role-seed.module';
 import { StatusSeedModule } from './status/status-seed.module';
 import { UserSeedModule } from './user/user-seed.module';
 import { EventCategorySeedModule } from './event-category/event-category.module';
-import { ParticipationOptionSeedModule } from './participation-option/participation-option.module';
 
 @Module({
   imports: [
@@ -17,7 +16,6 @@ import { ParticipationOptionSeedModule } from './participation-option/participat
     StatusSeedModule,
     UserSeedModule,
     EventCategorySeedModule,
-    ParticipationOptionSeedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig],

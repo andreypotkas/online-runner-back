@@ -1,5 +1,12 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { EntityHelper } from '@utils/entity-helper';
+import { EventReward } from '../../event-reward/entities/event-reward.entity';
 
 @Entity()
 export class ParticipationOption extends EntityHelper {
@@ -7,10 +14,15 @@ export class ParticipationOption extends EntityHelper {
   id: number;
 
   @Index()
-  @Column({ type: String, nullable: true })
+  @Column({ type: String })
   name: string | null;
 
   @Index()
-  @Column({ type: String, nullable: true })
-  price: string | null;
+  @Column({ type: Number })
+  price: number | null;
+
+  @ManyToOne(() => EventReward, {
+    eager: true,
+  })
+  reward: EventReward;
 }

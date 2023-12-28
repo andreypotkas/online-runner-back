@@ -4,7 +4,6 @@ import { SeedModule } from './seed.module';
 import { StatusSeedService } from './status/status-seed.service';
 import { UserSeedService } from './user/user-seed.service';
 import { EventCategorySeedService } from './event-category/event-category.service';
-import { ParticipationOptionSeedService } from './participation-option/participation-option.service';
 
 const runSeed = async () => {
   const app = await NestFactory.create(SeedModule);
@@ -14,7 +13,6 @@ const runSeed = async () => {
   await app.get(StatusSeedService).run();
   await app.get(UserSeedService).run();
   await app.get(EventCategorySeedService).run();
-  await app.get(ParticipationOptionSeedService).run();
 
   await app.close();
 };

@@ -20,9 +20,6 @@ export class EventReward extends EntityHelper {
   @Column({ type: String })
   description: string;
 
-  @Column({ type: Number, nullable: true })
-  price: number;
-
   @Column({ type: String, nullable: true })
   image: string;
 

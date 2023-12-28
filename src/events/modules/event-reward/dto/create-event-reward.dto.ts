@@ -10,10 +10,6 @@ export class CreateEventRewardDto {
   @IsNotEmpty()
   description: string;
 
-  @ApiProperty({ example: 10 })
-  @IsNotEmpty()
-  price: number;
-
   @ApiProperty({ example: 'Winter is coming! Detailed description of event.' })
   @IsNotEmpty()
   image: string;

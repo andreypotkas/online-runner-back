@@ -5,16 +5,31 @@ import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
 import { Event } from '../entities/event.entity';
 import { FilterEventDto, SortEventDto } from '../dto/query-event.dto';
 import { IPaginationOptions } from '@/types/pagination-options';
+import { ParticipationOptionService } from '../modules/participation-option/services/participationOption.service';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectRepository(Event)
     private eventsRepository: Repository<Event>,
+    private participationOptionsService: ParticipationOptionService,
   ) {}
-  create(createEventDto: CreateEventDto): Promise<Event> {
+  async create(createEventDto: CreateEventDto): Promise<Event> {
+    const participationOptions = createEventDto.participationOptions;
+
+    const createdParticipationOptions = await Promise.all(
+      participationOptions.map((item) => {
+        return this.participationOptionsService.create(item);
+      }),
+    );
+
     return this.eventsRepository
-      .save(this.eventsRepository.create(createEventDto))
+      .save(
+        this.eventsRepository.create({
+          ...createEventDto,
+          participationOptions: createdParticipationOptions,
+        }),
+      )
       .then((data) => this.findOne(data.id));
   }
 
@@ -49,7 +64,6 @@ export class EventsService {
         participants: true,
         participationOptions: true,
         category: true,
-        rewards: true,
       },
     });
   }
@@ -61,7 +75,6 @@ export class EventsService {
         participants: true,
         participationOptions: true,
         category: true,
-        rewards: true,
       },
     });
   }

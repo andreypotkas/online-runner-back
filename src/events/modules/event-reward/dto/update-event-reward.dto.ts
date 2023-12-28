@@ -13,10 +13,6 @@ export class UpdateEventRewardDto extends PartialType(CreateEventRewardDto) {
   @IsOptional()
   description?: string;
 
-  @ApiProperty({ example: 10 })
-  @IsOptional()
-  price?: number;
-
   @ApiProperty({ example: 'Winter is coming!' })
   @IsOptional()
   image?: string;

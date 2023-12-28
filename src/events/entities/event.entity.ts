@@ -14,7 +14,6 @@ import {
 import { ParticipationOption } from '../modules/participation-option/entities/participation-option.entity';
 import { Status } from 'src/statuses/entities/status.entity';
 import { EventCategory } from '../modules/event-category/entities/event-category.entity';
-import { EventReward } from '../modules/event-reward/entities/event-reward.entity';
 
 @Entity()
 export class Event extends EntityHelper {
@@ -42,10 +41,6 @@ export class Event extends EntityHelper {
   @ManyToMany(() => ParticipationOption)
   @JoinTable()
   participationOptions: ParticipationOption[];
-
-  @ManyToMany(() => EventReward)
-  @JoinTable()
-  rewards: EventReward[];
 
   @ManyToOne(() => Status, {
     eager: true,
